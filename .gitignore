@@ -1,0 +1,21 @@
+# Ignore build artifacts from Stack
+.stack-work/
+stack.yaml.lock
+
+# Cabal specific directories
+dist/
+dist-newstyle/
+
+# GHC-specific files
+*.hi
+*.o
+*.log
+*.aux
+
+# Environment files
+*.ghc.environment.*
+
+# Editor and OS-specific files
+*.swp
+*~
+
