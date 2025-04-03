@@ -1,3 +1,5 @@
+name: interpreter
+
 extra-source-files:
 - README.md
 
