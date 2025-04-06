@@ -1,8 +1,8 @@
-#### Finished at page
-9
-
 #### Book
-https://upload.wikimedia.org/wikipedia/commons/a/aa/Write_Yourself_a_Scheme_in_48_Hours.pdf
+https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours
+
+### Finished at
+https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours/First_Steps
 
 #### Build
 `stack build`
