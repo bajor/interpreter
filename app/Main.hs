@@ -7,6 +7,7 @@ main :: IO ()
 -- main = someFunc
 main = do
     args <- getArgs
-    putStrLn ("hello " ++ args !! 0)
+    let name = args !! 0
+    putStrLn ("hello " ++ name)
 
 -- How to run it: `stack run Andrzej` will say `hello Andrzej`
