@@ -12,7 +12,7 @@ extra-source-files:
 
 library
   exposed-modules:
-      Lib
+      ReadExpr
   other-modules:
       Paths_interpreter
   hs-source-dirs:
