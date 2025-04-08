@@ -6,13 +6,7 @@ import System.Environment (getArgs)
 
 main :: IO ()
 main = do
-    args <- getArgs
-    let name = args !! 0
+    (expr:_) <- getArgs
+    putStrLn (readExpr expr)
 
-    -- let symbol :: Parser Char
-    --     symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
-    --
-    putStrLn ("hello " ++ name)
-
--- How to run it: `stack run Andrzej` will say `hello Andrzej`
-
+-- run this with `stack run <expression>`
