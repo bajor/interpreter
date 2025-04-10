@@ -5,7 +5,7 @@ https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours/Parsing
 `stack build`
 
 #### Run with arg
-`stack run Andrzej`
+`stack run <arguments>`
 
 #### Altenratively compile with ghc
 ```haskell
