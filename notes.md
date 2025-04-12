@@ -6,4 +6,16 @@
 
 <br>
 
+In Haskell, `Either a b` represents a value that is either `Left a` (an error) or `Right b` (a success). You handle it with pattern matching:
+
+```haskell
+case result of  
+  Left err   -> handle the error  
+  Right val  -> use the successful value
+```
+
+Parsec uses `Left` for parse errors and `Right` for successful parses.
+
+<br>
+
 
