@@ -6,7 +6,9 @@ import System.Environment (getArgs)
 
 main :: IO ()
 main = do
-    (expr:_) <- getArgs
-    putStrLn (readExpr expr)
+  (expr:_) <- getArgs
+  putStrLn (readExpr expr)
 
--- run this with `stack run <expression>`
+-- run this with `stack run " <expression>"`
+-- you have to precede symbol with whitespace
+
