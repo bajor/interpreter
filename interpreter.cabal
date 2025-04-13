@@ -12,6 +12,7 @@ extra-source-files:
 
 library
   exposed-modules:
+      LispVal
       ReadExpr
   other-modules:
       Paths_interpreter
