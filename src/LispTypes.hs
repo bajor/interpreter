@@ -1,4 +1,4 @@
-module Types where
+module LispTypes where
 
 data LispVal = 
    LispAtom String

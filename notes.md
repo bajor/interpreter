@@ -6,6 +6,25 @@
 
 <br>
 
+**`do`‑notation** is just syntactic sugar for chaining monadic operations with **`>>=`** (bind) and **`>>`** (sequence/discard). It lets you write “imperative‑looking” code while still living inside any monad.
+
+
+| In `do`‑notation | Desugared form |
+|------------------|----------------|
+| `x <- m1`        | `m1 >>= \x -> …` (binds the result of `m1` to `x`) |
+| `m1`             | `m1 >> …` (discard `m1`’s result and continue) |
+| last line `e`    | `return e` (implicit) |
+
+### How it plays out in different monads
+
+* **`IO`** – each line is an IO action executed in order.  
+```haskell
+do name <- getLine      -- wait for user input
+ putStrLn ("Hi " ++ name)  -- then greet
+```
+
+<br>
+
 In Haskell, `Either a b` represents a value that is either `Left a` (an error) or `Right b` (a success). You handle it with pattern matching:
 
 ```haskell
@@ -18,9 +37,6 @@ Parsec uses `Left` for parse errors and `Right` for successful parses.
 
 <br>
 
-`>>` ("bind") operator, it was used behind the scenes to combine the lines of a do-block. Here, we use it explicitly to combine our whitespace and symbol parsers. However, bind has completely different semantics in the Parser and IO monads. In the Parser monad, bind means "Attempt to match the first parser, then attempt to match the second with the remaining input, and fail if either fails." In general, bind will have wildly different effects in different monads; it's intended as a general way to structure computations, and so needs to be general enough to accommodate all the different types of computations. Read the documentation for the monad to figure out precisely what it does. 
-
-<br>
 
 
 
