@@ -17,7 +17,7 @@ In general, use >> if the actions don't return a value, >>= if you'll be immedia
 | `m1`             | `m1 >> …` (discard `m1`’s result and continue) |
 | last line `e`    | `return e` (implicit) |
 
-### How it plays out in different monads
+**How it plays out in different monads**
 
 * **`IO`** – each line is an IO action executed in order.  
 ```haskell
@@ -52,5 +52,16 @@ print $ sum $ map (+1) [1,2,3]
 
 <br>
 
+**(<|>)** tries the left option, if it fails, tries the right one
+```haskell
+-- Works with Maybe, Parsers, etc.
+
+Just 1 <|> Just 2     -- Result: Just 1
+Nothing <|> Just 2    -- Result: Just 2
+
+-- Chained <|>: picks the first Just, skips the rest
+
+Nothing <|> Nothing <|> Just 3 <|> Just 4  -- Result: Just 3
+```
 
 
