@@ -1,7 +1,7 @@
 ### Finished at
 https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours/Parsing
 
-`parseString` section
+`parseAtom` section
 
 #### Build
 `stack build`
