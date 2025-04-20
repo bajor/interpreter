@@ -3,6 +3,8 @@
 <br>
 
 `>>` in Haskell is a sequencing operator used in monads. Its behavior depends on the monad: in the Parser monad, it runs the first parser, then the second on the remaining input, failing if either fails. In the IO monad, it runs actions in order, discarding the first result. Always check the monad's docs to understand its exact behavior.
+<br>
+In general, use >> if the actions don't return a value, >>= if you'll be immediately passing that value into the next action, and do-notation otherwise.
 
 <br>
 
@@ -37,6 +39,18 @@ Parsec uses `Left` for parse errors and `Right` for successful parses.
 
 <br>
 
+Function Application sith `$`:
+```haskell
+-- Without $
+print (sum (map (+1) [1,2,3]))
+
+-- With $
+print $ sum $ map (+1) [1,2,3]
+
+-- Same result, less parentheses
+```
+
+<br>
 
 
 
