@@ -17,7 +17,7 @@ parseLispString = do
   char '"'
   x <- many (noneOf "\"")
   char '"'
-  return $ LispTypes.LispString x
+  return (LispTypes.LispString x)
   -- A string is a double quote mark, followed by any number of non-quote characters, followed by a closing quote mark
 
 
