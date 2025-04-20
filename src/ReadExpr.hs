@@ -1,7 +1,7 @@
 module ReadExpr (readExpr) where
 
 import Text.ParserCombinators.Parsec (Parser, oneOf, parse, skipMany1, space, noneOf, char, many)
-import Types
+import LispTypes
 
 
 symbol :: Parser Char
@@ -17,7 +17,7 @@ parseLispString = do
   char '"'
   x <- many (noneOf "\"")
   char '"'
-  return $ Types.LispString x
+  return $ LispTypes.LispString x
   -- A string is a double quote mark, followed by any number of non-quote characters, followed by a closing quote mark
 
 

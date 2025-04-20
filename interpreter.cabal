@@ -12,8 +12,8 @@ extra-source-files:
 
 library
   exposed-modules:
+      LispTypes
       ReadExpr
-      Types
   other-modules:
       Paths_interpreter
   hs-source-dirs:
