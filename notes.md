@@ -64,4 +64,28 @@ Nothing <|> Just 2    -- Result: Just 2
 Nothing <|> Nothing <|> Just 3 <|> Just 4  -- Result: Just 3
 ```
 
+<br>
+
+In Haskell, both **function application ($) and function composition (.)** are **right-associative**. This makes it convenient to **read expressions from right to left** — from data to result.
+
+- **Function Application ($)**: applies a function with low precedence, allowing fewer parentheses.
+- **Function Composition (.)**: creates a new function by composing two or more functions.
+
+<br>
+Example 1: Using `$` to reduce parentheses
+Instead of:
+  print (sum (map (+1) [1,2,3]))
+You can write:
+  print $ sum $ map (+1) [1,2,3]
+<br>
+Example 2: Using `.` to compose functions
+  (f . g . h) x  ==  f (g (h x))
+So:
+  map (negate . abs) [-1,2,-3] == [-1,-2,-3]
+<br>
+Example 3: Combined usage
+  print . sum . map (+1) $ [1,2,3]
+Reads as: "map (+1), then sum, then print"
+
+Reading right to left helps mentally model the **data flow**.
 
