@@ -31,7 +31,9 @@ parseLispAtom = do
     "#t" -> LispBool True
     "#f" -> LispBool False
     _ -> LispAtom lispAtom
-
+  -- An atom is a letter or symbol, followed by any number of letters, digits, or symbols
+  --
+  -- We use a case expression to determine which LispVal to create and return, matching against the literal strings for true and false. If that is not the case, we return LispAtom.
 
 readExpr :: String -> String
 readExpr input = case parse (spaces >> symbol) "lisp" input of

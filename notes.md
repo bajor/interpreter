@@ -52,7 +52,7 @@ print $ sum $ map (+1) [1,2,3]
 
 <br>
 
-**(<|>)** tries the left option, if it fails, tries the right one
+**(<|>)** tries the first, left option, if it fails, tries the right one
 ```haskell
 -- Works with Maybe, Parsers, etc.
 
