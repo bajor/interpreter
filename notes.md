@@ -2,6 +2,7 @@
 
 It extracts the first command-line argument (expr) and ignores the rest (_). If no arguments are given, it will crash—so it's not safe without checks.
 
+
 <br>
 
 ---
@@ -14,6 +15,31 @@ It extracts the first command-line argument (expr) and ignores the rest (_). If 
 Its behavior depends on the monad: in the Parser monad, it runs the first parser, then the second on the remaining input, failing if either fails. In the IO monad, it runs actions in order, discarding the first result. Always check the monad's docs to understand its exact behavior.
 <br>
 In general, use >> if the actions don't return a value, >>= if you'll be immediately passing that value into the next action, and do-notation otherwise.
+
+
+<br>
+
+---
+
+<br>
+
+
+### -> vs <- difference
+
+```haskell
+-- -> is for type signatures
+greet :: String -> String
+greet name = "Hi " ++ name
+-- and for using -> in a function (lambda)
+greet :: String -> String
+greet = \name -> "Hi " ++ name
+
+-- <- is for extracting values from monads (like IO) inside a do block
+main = do
+  name <- getLine
+  putStrLn ("Hi " ++ name)
+```
+
 
 <br>
 
@@ -35,9 +61,23 @@ In general, use >> if the actions don't return a value, >>= if you'll be immedia
 
 * **`IO`** – each line is an IO action executed in order.  
 ```haskell
-do name <- getLine      -- wait for user input
- putStrLn ("Hi " ++ name)  -- then greet
+do 
+  putStrLn "Enter your name:"
+  name <- getLine           -- wait for user input
+  putStrLn ("Hi " ++ name)  -- then greet
 ```
+
+Same with `>>` and `>>=`
+```haskell
+main = 
+  putStrLn "Enter your name:" >>
+  getLine >>= \name ->
+  putStrLn ("Hi " ++ name)
+```
+
+- `>>` is used when you don't need the result (e.g., from putStrLn)
+- `>>=` is used when you do need the result (e.g., from getLine)
+
 
 <br>
 

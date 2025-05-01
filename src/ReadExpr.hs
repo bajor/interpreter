@@ -39,9 +39,7 @@ parseLispAtom = do
 
 
 parseLispNumber :: Parser LispVal
-parseLispNumber = do
-  numStr <- many1 digit
-  return (LispNumber (read numStr))
+parseLispNumber = many1 digit >>= \numStr -> return (LispNumber (read numStr))
 
 
 parseExpr :: Parser LispVal
