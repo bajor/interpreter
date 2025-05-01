@@ -1,4 +1,6 @@
-`(expr:_) <- getArgs` This is pattern matching on the list returned by getArgs. It extracts the first command-line argument (expr) and ignores the rest (_). If no arguments are given, it will crash—so it's not safe without checks.
+### `(expr:_) <- getArgs` This is pattern matching on the list returned by getArgs.
+
+It extracts the first command-line argument (expr) and ignores the rest (_). If no arguments are given, it will crash—so it's not safe without checks.
 
 <br>
 
@@ -6,7 +8,10 @@
 
 <br>
 
-`>>` in Haskell is a sequencing operator used in monads. Its behavior depends on the monad: in the Parser monad, it runs the first parser, then the second on the remaining input, failing if either fails. In the IO monad, it runs actions in order, discarding the first result. Always check the monad's docs to understand its exact behavior.
+
+### `>>` in Haskell is a sequencing operator used in monads.
+
+Its behavior depends on the monad: in the Parser monad, it runs the first parser, then the second on the remaining input, failing if either fails. In the IO monad, it runs actions in order, discarding the first result. Always check the monad's docs to understand its exact behavior.
 <br>
 In general, use >> if the actions don't return a value, >>= if you'll be immediately passing that value into the next action, and do-notation otherwise.
 
@@ -16,7 +21,8 @@ In general, use >> if the actions don't return a value, >>= if you'll be immedia
 
 <br>
 
-**`do`‑notation** is just syntactic sugar for chaining monadic operations with **`>>=`** (bind) and **`>>`** (sequence/discard). It lets you write “imperative‑looking” code while still living inside any monad.
+
+### **`do`‑notation** is just syntactic sugar for chaining monadic operations with **`>>=`** (bind) and **`>>`** (sequence/discard). It lets you write “imperative‑looking” code while still living inside any monad.
 
 
 | In `do`‑notation | Desugared form |
@@ -39,7 +45,8 @@ do name <- getLine      -- wait for user input
 
 <br>
 
-In Haskell, `Either a b` represents a value that is either `Left a` (an error) or `Right b` (a success). You handle it with pattern matching:
+
+### In Haskell, `Either a b` represents a value that is either `Left a` (an error) or `Right b` (a success). You handle it with pattern matching:
 
 ```haskell
 case result of  
@@ -55,7 +62,8 @@ Parsec uses `Left` for parse errors and `Right` for successful parses.
 
 <br>
 
-Function Application with `$`:
+
+### Function Application with `$`:
 ```haskell
 -- Without $
 print (sum (map (+1) [1,2,3]))
@@ -72,15 +80,14 @@ print $ sum $ map (+1) [1,2,3]
 
 <br>
 
-**(<|>)** tries the first, left option, if it fails, tries the right one
+
+### **(<|>)** tries the first, left option, if it fails, tries the right one
 ```haskell
 -- Works with Maybe, Parsers, etc.
 
 Just 1 <|> Just 2     -- Result: Just 1
 Nothing <|> Just 2    -- Result: Just 2
-
 -- Chained <|>: picks the first Just, skips the rest
-
 Nothing <|> Nothing <|> Just 3 <|> Just 4  -- Result: Just 3
 ```
 
@@ -90,7 +97,8 @@ Nothing <|> Nothing <|> Just 3 <|> Just 4  -- Result: Just 3
 
 <br>
 
-In Haskell, both **function application ($) and function composition (.)** are **right-associative**. This makes it convenient to **read expressions from right to left** — from data to result.
+
+### In Haskell, both **function application ($) and function composition (.)** are **right-associative**. This makes it convenient to **read expressions from right to left** — from data to result.
 
 - **Function Application ($)**: applies a function with low precedence, allowing fewer parentheses.
 - **Function Composition (.)**: creates a new function by composing two or more functions.
@@ -128,7 +136,53 @@ Reading right to left helps mentally model the **data flow**.
 
 <br>
 
-**`liftM`** is a function from `Control.Monad` that **lifts a normal (pure) function into a monadic context**.
+---
+
+<br>
+
+
+### `return` in Haskell and Monads
+
+In Haskell, `return` is **not like return in other languages**. It does **not exit a function** — instead, it **wraps a value into a monad**.
+
+Type:
+```haskell
+  return :: Monad m => a -> m a
+```
+
+It lifts a plain value into a monadic context.
+
+Examples:
+
+- `return 5 :: Maybe Int`    → `Just 5`
+- `return "hi" :: IO String` → wraps into an IO action
+- `return 42 :: Parser Int`  → parser that always returns 42 without consuming input
+
+In `do` blocks:
+```
+  do
+    x <- someAction
+    return (f x)
+```
+
+Here, `return` is used to wrap the result so the entire block returns a monadic value.
+
+Summary:
+- `return` ≠ exit — it's a **monadic lift**
+- It is essential for working inside monads like `IO`, `Maybe`, `Parser`, etc.
+- Think of it as: _“Put this value into a box”_ (the monad)
+
+Note: modern Haskell often uses `pure` (from `Applicative`) instead of `return`, but they are equivalent for most practical purposes.
+
+
+<br>
+
+---
+
+<br>
+
+
+### **`liftM`** is a function from `Control.Monad` that **lifts a normal (pure) function into a monadic context**.
 
 Type:
 ```
@@ -156,3 +210,5 @@ You can write:
 ---
 
 <br>
+
+
