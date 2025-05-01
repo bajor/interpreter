@@ -2,9 +2,17 @@
 
 <br>
 
+---
+
+<br>
+
 `>>` in Haskell is a sequencing operator used in monads. Its behavior depends on the monad: in the Parser monad, it runs the first parser, then the second on the remaining input, failing if either fails. In the IO monad, it runs actions in order, discarding the first result. Always check the monad's docs to understand its exact behavior.
 <br>
 In general, use >> if the actions don't return a value, >>= if you'll be immediately passing that value into the next action, and do-notation otherwise.
+
+<br>
+
+---
 
 <br>
 
@@ -27,6 +35,10 @@ do name <- getLine      -- wait for user input
 
 <br>
 
+---
+
+<br>
+
 In Haskell, `Either a b` represents a value that is either `Left a` (an error) or `Right b` (a success). You handle it with pattern matching:
 
 ```haskell
@@ -39,7 +51,11 @@ Parsec uses `Left` for parse errors and `Right` for successful parses.
 
 <br>
 
-Function Application sith `$`:
+---
+
+<br>
+
+Function Application with `$`:
 ```haskell
 -- Without $
 print (sum (map (+1) [1,2,3]))
@@ -49,6 +65,10 @@ print $ sum $ map (+1) [1,2,3]
 
 -- Same result, less parentheses
 ```
+
+<br>
+
+---
 
 <br>
 
@@ -66,26 +86,73 @@ Nothing <|> Nothing <|> Just 3 <|> Just 4  -- Result: Just 3
 
 <br>
 
+---
+
+<br>
+
 In Haskell, both **function application ($) and function composition (.)** are **right-associative**. This makes it convenient to **read expressions from right to left** — from data to result.
 
 - **Function Application ($)**: applies a function with low precedence, allowing fewer parentheses.
 - **Function Composition (.)**: creates a new function by composing two or more functions.
 
 <br>
+
 Example 1: Using `$` to reduce parentheses
 Instead of:
+```haskell
   print (sum (map (+1) [1,2,3]))
+```
 You can write:
+```haskell
   print $ sum $ map (+1) [1,2,3]
+```
 <br>
+
 Example 2: Using `.` to compose functions
+```haskell
   (f . g . h) x  ==  f (g (h x))
+```
 So:
+```haskell
   map (negate . abs) [-1,2,-3] == [-1,-2,-3]
+```
 <br>
+
 Example 3: Combined usage
+```haskell
   print . sum . map (+1) $ [1,2,3]
+```
 Reads as: "map (+1), then sum, then print"
 
 Reading right to left helps mentally model the **data flow**.
 
+<br>
+
+**`liftM`** is a function from `Control.Monad` that **lifts a normal (pure) function into a monadic context**.
+
+Type:
+```
+  liftM :: Monad m => (a -> b) -> m a -> m b
+```
+
+It lets you apply a function to the result of a monadic computation, similar to `fmap`, but for any Monad (not just Functor).
+
+<br>
+Example:
+
+Instead of writing:
+```haskell
+  do x <- action
+     return (f x)
+```
+
+You can write:
+```haskell
+  liftM f action
+```
+
+<br>
+
+---
+
+<br>

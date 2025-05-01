@@ -18,7 +18,7 @@ parseLispString = do
   char '"'
   x <- many (noneOf "\"")
   char '"'
-  return (LispTypes.LispString x)
+  return (LispString x)
   -- A string is a double quote mark, followed by any number of non-quote characters, followed by a closing quote mark
 
 
@@ -26,12 +26,12 @@ parseLispAtom :: Parser LispVal
 parseLispAtom = do
   first <- letter <|> symbol
   rest <- many (letter <|> digit <|> symbol)
-  let lispAtom = first:rest
+  let parsedList = first:rest
   return (
-    case lispAtom of
+    case parsedList of
       "#t" -> LispBool True
       "#f" -> LispBool False
-      _ -> LispAtom lispAtom
+      _ -> LispAtom parsedList
     )
   -- An atom is a letter or symbol, followed by any number of letters, digits, or symbols
   --
