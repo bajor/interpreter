@@ -1,7 +1,7 @@
 module ReadExpr (readExpr) where
 
 import Control.Applicative ((<|>))
-import Text.ParserCombinators.Parsec (Parser, oneOf, parse, skipMany1, space, noneOf, char, many, letter, char, digit, many1)
+import Text.ParserCombinators.Parsec (Parser, oneOf, parse, noneOf, char, many, letter, char, digit, many1)
 import LispTypes
 
 
@@ -9,24 +9,20 @@ symbol :: Parser Char
 symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
 
 
-spaces :: Parser ()
-spaces = skipMany1 space
-
-
 parseLispString :: Parser LispVal
-parseLispString = do
-  char '"'
-  x <- many (noneOf "\"")
-  char '"'
+parseLispString =
+  char '"' >>
+  many (noneOf "\"") >>= \x ->
+  char '"' >>
   return (LispString x)
   -- A string is a double quote mark, followed by any number of non-quote characters, followed by a closing quote mark
 
 
 parseLispAtom :: Parser LispVal
-parseLispAtom = do
-  first <- letter <|> symbol
-  rest <- many (letter <|> digit <|> symbol)
-  let parsedList = first:rest
+parseLispAtom =
+  (letter <|> symbol) >>= \first ->
+  many (letter <|> digit <|> symbol) >>= \rest ->
+  let parsedList = first:rest in 
   return (
     case parsedList of
       "#t" -> LispBool True
