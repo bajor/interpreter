@@ -251,4 +251,35 @@ You can write:
 
 <br>
 
+### Guards are used in function definitions to choose between multiple results based on Boolean expressions.
 
+They act like `if-else if-else` chains.
+
+Syntax:
+```haskell
+functionName args
+  | condition1 = result1
+  | condition2 = result2
+  | otherwise  = defaultResult
+
+Example:
+grade :: Int -> String
+grade score
+  | score >= 90 = "A"
+  | score >= 80 = "B"
+  | score >= 70 = "C"
+  | score >= 60 = "D"
+  | otherwise   = "F"
+
+-- Usage:
+-- grade 85  ==> "B"
+-- grade 55  ==> "F"
+
+```
+Guards must **return values** (not actions), and **all conditions must be of type Bool**.
+
+<br>
+
+---
+
+<br>
