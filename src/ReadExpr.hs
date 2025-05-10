@@ -9,13 +9,24 @@ symbol :: Parser Char
 symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
 
 
+escapedChar :: Parser Char
+escapedChar =
+  char '\\' >>
+  (   char '"'  >> return '"'
+  <|> char '\\' >> return '\\'
+  <|> char 'n'  >> return '\n'
+  <|> char 't'  >> return '\t'
+  <|> char 'r'  >> return '\r'
+  )
+
+
 parseLispString :: Parser LispVal
 parseLispString =
   char '"' >>
-  many (noneOf "\"") >>= \x ->
+  many (escapedChar <|> noneOf "\"") >>= \content->
   char '"' >>
-  return (LispString x)
-  -- A string is a double quote mark, followed by any number of non-quote characters, followed by a closing quote mark
+  return (LispString content)
+  -- A string is a double quote mark, followed by any number characters, followed by a closing quote mark
 
 
 parseLispAtom :: Parser LispVal
