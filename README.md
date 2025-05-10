@@ -18,3 +18,12 @@ and run it:
 ./my_program
 ```
 
+#### `hoogle`
+`stack hoogle -- --generate --local          # one-off, ~2–5 min`
+
+After index exist:
+```
+stack hoogle mapM                    # CLI lookup
+stack hoogle -- server --local       # starts http://localhost:8080
+```
+
