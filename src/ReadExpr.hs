@@ -3,10 +3,7 @@ module ReadExpr (readExpr) where
 import Control.Applicative ((<|>))
 import Text.ParserCombinators.Parsec (Parser, oneOf, parse, noneOf, char, many, letter, char, digit, many1)
 import LispTypes
-
-
-symbol :: Parser Char
-symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
+import Numeric (readOct, readBin, readHex)
 
 
 escapedChar :: Parser Char
@@ -29,11 +26,14 @@ parseLispString =
   -- A string is a double quote mark, followed by any number characters, followed by a closing quote mark
 
 
+symbol :: Parser Char
+symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
+
 parseLispAtom :: Parser LispVal
 parseLispAtom =
   (letter <|> symbol) >>= \first ->
-  many (letter <|> digit <|> symbol) >>= \rest ->
-  let parsedList = first:rest in 
+  many (letter <|> digit <|> symbol) >>= \second ->
+  let parsedList = first:second in 
   return (
     case parsedList of
       "#t" -> LispBool True
@@ -45,8 +45,22 @@ parseLispAtom =
   -- We use a case expression to determine which LispVal to create and return, matching against the literal strings for true and false. If that is not the case, we return LispAtom.
 
 
+parseRadixNumbers :: Parser LispVal
+parseRadixNumbers =
+  char '#' >> 
+  oneOf "bodx" >>= \second ->
+  many1 digit >>= \rest ->
+  return $ LispNumber $ case second of
+      'b' -> fst . head $ readBin rest
+      'o' -> fst . head $ readOct rest
+      'd' -> read rest
+      'x' -> fst . head $ readHex rest
+
+parseManyDigits :: Parser LispVal
+parseManyDigits = many1 digit >>= \numStr -> return (LispNumber (read numStr))
+
 parseLispNumber :: Parser LispVal
-parseLispNumber = many1 digit >>= \numStr -> return (LispNumber (read numStr))
+parseLispNumber = parseManyDigits <|> parseRadixNumbers
 
 
 parseExpr :: Parser LispVal

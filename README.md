@@ -1,7 +1,7 @@
 ### Finished at
 https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours/Parsing
 
-Now: Exercise 2nd
+Now: Exercise 5th
 
 #### Build
 `stack build`
