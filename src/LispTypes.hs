@@ -5,6 +5,7 @@ data LispVal =
   | LispList [LispVal]
   | LispDottedList [LispVal] LispVal
   | LispNumber Integer
+  | LispChar Char
   | LispString String
   | LispBool Bool
 

@@ -6,6 +6,10 @@ import LispTypes
 import Numeric (readOct, readBin, readHex)
 
 
+parseLispChar :: Parser LispVal
+parseLispChar = 
+
+
 escapedChar :: Parser Char
 escapedChar =
   char '\\' >>
@@ -65,6 +69,7 @@ parseLispNumber = parseManyDigits <|> parseRadixNumbers
 
 parseExpr :: Parser LispVal
 parseExpr = parseLispAtom
+  <|> parseLispChar
   <|> parseLispString
   <|> parseLispNumber 
 
