@@ -1,5 +1,6 @@
 module ReadExpr (readExpr) where
 
+import Data.Char (toLower)
 import Control.Applicative ((<|>))
 import Text.ParserCombinators.Parsec (Parser, oneOf, parse, noneOf, char, many, letter, digit, many1, string)
 import LispTypes
@@ -9,13 +10,24 @@ import Numeric (readOct, readBin, readHex)
 delimiter :: Parser Char
 delimiter = oneOf " ()\"'`,"
 
+parseNewLineOrSpace :: Parser LispVal
+parseNewLineOrSpace =
+    string "#\\" >>
+    many1 letter >>= \name ->
+        case map toLower name of
+            "space" -> delimiter >> return (LispChar ' ')
+            "newline" -> delimiter >> return (LispChar '\n')
+
+parseChar :: Parser LispVal
+parseChar =
+    string "#\\" >>
+    (letter <|> symbol) >>=
+    \ls -> delimiter >>
+    return (LispChar ls)
+
+
 parseLispChar :: Parser LispVal
-parseLispChar = 
-    string "#\\" >> 
-        letter <|> symbol >>= \letterOrSymbol -> delimiter >> return (LispChar letterOrSymbol)
-        -- letter >> delimiter >> return (LispString body)
-
-
+parseLispChar = parseNewLineOrSpace <|> parseChar
 
 escapedChar :: Parser Char
 escapedChar =
