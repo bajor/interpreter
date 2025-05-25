@@ -57,12 +57,12 @@ parseLispAtom =
     (letter <|> symbol) >>= \first ->
     many (letter <|> digit <|> symbol) >>= \second ->
     let parsedList = first:second in 
-    return (
-        case parsedList of
-            "#t" -> LispBool True
-            "#f" -> LispBool False
-            _ -> LispAtom parsedList
-           )
+        return (
+            case parsedList of
+                "#t" -> LispBool True
+                "#f" -> LispBool False
+                _ -> LispAtom parsedList
+               )
   -- An atom is a letter or symbol, followed by any number of letters, digits, or symbols
   --
   -- We use a case expression to determine which LispVal to create and return, matching against the literal strings for true and false. If that is not the case, we return LispAtom.
@@ -73,11 +73,15 @@ parseRadixNumbers =
     char '#' >> 
     oneOf "bodx" >>= \second ->
     many1 digit >>= \rest ->
-    return $ LispNumber $ case second of
-        'b' -> fst . head $ readBin rest
-        'o' -> fst . head $ readOct rest
-        'd' -> read rest
-        'x' -> fst . head $ readHex rest
+    return (
+        LispNumber(
+            case second of
+                'b' -> fst . head $ readBin rest
+                'o' -> fst . head $ readOct rest
+                'd' -> read rest
+                'x' -> fst . head $ readHex rest
+        )
+    )
 
 
 parseManyDigits :: Parser LispVal
