@@ -3,13 +3,19 @@ https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours/Parsing
 
 Now: Exercise 5th
 
-#### Build
+---
+
+### Build
 `stack build`
 
-#### Run with arg
+---
+
+### Run with arg
 `stack run <arguments>`
 
-#### Altenratively compile with ghc
+---
+
+### Alternatively compile with ghc
 ```haskell
 ghc -o my_program --make app/Main.hs
 ```
@@ -18,7 +24,9 @@ and run it:
 ./my_program
 ```
 
-#### `hoogle`
+---
+
+### `hoogle`
 `stack hoogle -- --generate --local          # one-off, ~2–5 min`
 
 After index exist:
