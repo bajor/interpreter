@@ -1,3 +1,10 @@
+### vim with haskell
+- `gr` works
+    - then you can `:ccl` to close bottom refferences or `<leader q>`
+
+
+---
+
 ### Finished at
 https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours/Parsing
 
