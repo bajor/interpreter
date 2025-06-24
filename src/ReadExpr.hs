@@ -4,7 +4,7 @@ import Data.Char (toLower)
 import Control.Applicative ((<|>))
 import Text.ParserCombinators.Parsec (Parser, oneOf, parse, noneOf, char, many, letter, digit, many1, string)
 import LispTypes
-import Numeric (readOct, readBin, readHex)
+import Numeric (readOct, readBin, readHex, readFloat)
 
 
 delimiter :: Parser Char
@@ -91,11 +91,19 @@ parseLispNumber :: Parser LispVal
 parseLispNumber = parseManyDigits <|> parseRadixNumbers
 
 
+parseLispFloat :: Parser LispVal
+parseLispFloat = 
+    many1 digit >>= \intPart -> 
+    char '.' >> many1 digit >>= \floatPart ->
+    return (LispFloat (fst . head $ readFloat (intPart ++ "." ++ floatPart)))
+
+
 parseExpr :: Parser LispVal
 parseExpr = parseLispAtom
     <|> parseLispChar
     <|> parseLispString
     <|> parseLispNumber 
+    <|> parseLispFloat
 
 
 readExpr :: String -> String
